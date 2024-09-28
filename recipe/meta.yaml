@@ -1,51 +1,81 @@
-{% set name = "python-dotenv" %}
-{% set version = "0.21.0" %}
-{% set sha256 = "b77d08274639e3d34145dfa6c7008e66df0f04b7be7a75fd0d5292c191d79045" %}
+{% set version = "1.0.1" %}
 
 package:
-  name: {{ name|lower }}
+  name: python-dotenv-split
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  url: https://pypi.io/packages/source/p/python-dotenv/python-dotenv-{{ version }}.tar.gz
+  sha256: e324ee90a023d808f1959c46bcbc04446a10ced277783dc6ee09987c37ec10ca
 
 build:
   number: 0
-  script: {{ PYTHON }} -m pip install . --no-deps -vv
-  skip: True  # [py<37]
-  entry_points:
-    - dotenv = dotenv:cli.cli
+  noarch: python
 
 requirements:
   host:
     - pip
-    - python
-    - setuptools
-    - wheel
+    - python >=3.8
   run:
-    - python
-    - click >=5.0
+    - python >=3.8
 
-test:
-  imports:
-    - dotenv
-  requires:
-    - pip
-  commands:
-    - pip check
+outputs:
+  - name: python-dotenv
+    build:
+      noarch: python
+      script: {{ PYTHON }} -m pip install . --no-deps -vv --no-build-isolation
+      entry_points:
+        - dotenv=dotenv.__main__:cli
+    requirements:
+      host:
+        - pip
+        - python >=3.8
+      run:
+        - python >=3.8
+    test:
+      imports:
+        - dotenv
+      requires:
+        - pip
+      commands:
+        - pip check
+
+  - name: python-dotenv-with-cli
+    build:
+      noarch: python
+    requirements:
+      host:
+        - pip
+        - python >=3.8
+      run:
+        - {{ pin_subpackage("python-dotenv", exact=True) }}
+        - click >=5.0
+        - python >=3.8
+    test:
+      imports:
+        - dotenv
+      requires:
+        - pip
+      commands:
+        - pip check
+        - dotenv --help
+
 
 about:
-  home: https://saurabh-kumar.com/python-dotenv/
+  home: https://saurabh-kumar.com/python-dotenv
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE
-  summary: Get and set values in your .env file in local and production servers like Heroku does.
-  description: Python-dotenv reads key-value pairs from a .env file and can set them as environment variables. It helps in the development of applications following the 12-factor principles.
-  dev_url: https://github.com/theskumar/python-dotenv/
-  doc_url: https://github.com/theskumar/python-dotenv/tree/v{{ version }}/docs
+  summary: Read key-value pairs from a .env file and set them as environment variables
+  dev_url: https://github.com/theskumar/python-dotenv
 
 extra:
+  anaconda-services:
+    ref: https://anaconda.zendesk.com/agent/tickets/49522
+    reason: Dependency for chainlit
+  recipe-maintainers:
+    - ianaobi
+  feedstock-name: python-dotenv
   recipe-maintainers:
     - proinsias
+    - bollwyvl
