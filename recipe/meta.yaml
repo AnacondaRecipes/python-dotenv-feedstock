@@ -1,15 +1,13 @@
 {% set name = "python-dotenv" %}
 {% set version = "1.1.0" %}
-{% set sha256 = "41f90bc6f5f177fb41f53e87666db362025010eb28f60a01c9143bfa33a2b2d5" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  url: https://github.com/theskumar/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: 2b9722774d3126917226cc39d0b63deb45bd9edacf8fa9b08aceee8e6d9a246d
 
 build:
   number: 0
@@ -31,10 +29,15 @@ requirements:
 test:
   imports:
     - dotenv
+  source_files:
+    - tests
   requires:
     - pip
+    - pytest
+    - sh
   commands:
     - pip check
+    - pytest tests -vv
 
 about:
   home: https://saurabh-kumar.com/python-dotenv/
