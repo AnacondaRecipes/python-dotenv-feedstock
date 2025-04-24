@@ -1,6 +1,6 @@
 {% set name = "python-dotenv" %}
-{% set version = "0.21.0" %}
-{% set sha256 = "b77d08274639e3d34145dfa6c7008e66df0f04b7be7a75fd0d5292c191d79045" %}
+{% set version = "1.1.0" %}
+{% set sha256 = "41f90bc6f5f177fb41f53e87666db362025010eb28f60a01c9143bfa33a2b2d5" %}
 
 package:
   name: {{ name|lower }}
@@ -13,8 +13,8 @@ source:
 
 build:
   number: 0
-  script: {{ PYTHON }} -m pip install . --no-deps -vv
-  skip: True  # [py<37]
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
+  skip: True  # [py<39]
   entry_points:
     - dotenv = dotenv:cli.cli
 
