@@ -37,7 +37,8 @@ test:
     - sh   # [not win]
   commands:
     - pip check
-    - pytest tests -vv -k "not (test_set_key_permission_error or test_set_key_unauthorized_file)"
+    - pytest tests -vv -k "not (test_set_key_permission_error or test_set_key_unauthorized_file)" # [not win]
+# skipping tests  fro windows due to upstream tests depend on UNIX ‘sh’ which isn’t available on Win-64
 
 about:
   home: https://saurabh-kumar.com/python-dotenv/
