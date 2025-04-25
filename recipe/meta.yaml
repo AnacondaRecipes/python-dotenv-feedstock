@@ -38,7 +38,7 @@ test:
   commands:
     - pip check
     - pytest tests -vv -k "not (test_set_key_permission_error or test_set_key_unauthorized_file)" # [not win]
-# skipping tests  fro windows due to upstream tests depend on UNIX ‘sh’ which isn’t available on Win-64
+# skipping tests for windows due to upstream tests depend on UNIX ‘sh’ which isn’t available on Win-64
 
 about:
   home: https://saurabh-kumar.com/python-dotenv/
@@ -46,9 +46,11 @@ about:
   license_family: BSD
   license_file: LICENSE
   summary: Get and set values in your .env file in local and production servers like Heroku does.
-  description: Python-dotenv reads key-value pairs from a .env file and can set them as environment variables. It helps in the development of applications following the 12-factor principles.
+  description: |
+    Python-dotenv reads key-value pairs from a .env file and can set them as environment variables.
+    It helps in the development of applications following the 12-factor principles.
   dev_url: https://github.com/theskumar/python-dotenv/
-  doc_url: https://github.com/theskumar/python-dotenv/tree/v{{ version }}/docs
+  doc_url: https://github.com/theskumar/python-dotenv/tree/main/docs
 
 extra:
   recipe-maintainers:
