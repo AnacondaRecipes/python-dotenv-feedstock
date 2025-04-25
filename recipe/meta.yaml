@@ -25,6 +25,8 @@ requirements:
   run:
     - python
     - click >=5.0
+  run_constrained:
+    - ipython >=3.6
 
 test:
   imports:
