@@ -33,8 +33,8 @@ test:
     - tests
   requires:
     - pip
-    - pytest
-    - sh   # [not win]
+    - pytest >=3.9
+    - sh >2   # [not win]
   commands:
     - pip check
     - pytest tests -vv -k "not (test_set_key_permission_error or test_set_key_unauthorized_file)" # [not win]
