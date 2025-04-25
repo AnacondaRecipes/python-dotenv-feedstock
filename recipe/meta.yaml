@@ -1,22 +1,20 @@
 {% set name = "python-dotenv" %}
-{% set version = "0.21.0" %}
-{% set sha256 = "b77d08274639e3d34145dfa6c7008e66df0f04b7be7a75fd0d5292c191d79045" %}
+{% set version = "1.1.0" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  url: https://github.com/theskumar/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: 2b9722774d3126917226cc39d0b63deb45bd9edacf8fa9b08aceee8e6d9a246d
 
 build:
   number: 0
-  script: {{ PYTHON }} -m pip install . --no-deps -vv
-  skip: True  # [py<37]
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
+  skip: True  # [py<39]
   entry_points:
-    - dotenv = dotenv:cli.cli
+    - dotenv = dotenv.__main__:cli
 
 requirements:
   host:
@@ -31,10 +29,16 @@ requirements:
 test:
   imports:
     - dotenv
+  source_files:
+    - tests
   requires:
     - pip
+    - pytest >=3.9
+    - sh >2   # [not win]
   commands:
     - pip check
+    - pytest tests -vv -k "not (test_set_key_permission_error or test_set_key_unauthorized_file)" # [not win]
+# skipping tests for windows due to upstream tests depend on UNIX ‘sh’ which isn’t available on Win-64
 
 about:
   home: https://saurabh-kumar.com/python-dotenv/
@@ -42,9 +46,11 @@ about:
   license_family: BSD
   license_file: LICENSE
   summary: Get and set values in your .env file in local and production servers like Heroku does.
-  description: Python-dotenv reads key-value pairs from a .env file and can set them as environment variables. It helps in the development of applications following the 12-factor principles.
+  description: |
+    Python-dotenv reads key-value pairs from a .env file and can set them as environment variables.
+    It helps in the development of applications following the 12-factor principles.
   dev_url: https://github.com/theskumar/python-dotenv/
-  doc_url: https://github.com/theskumar/python-dotenv/tree/v{{ version }}/docs
+  doc_url: https://github.com/theskumar/python-dotenv/tree/main/docs
 
 extra:
   recipe-maintainers:
