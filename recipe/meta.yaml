@@ -1,9 +1,8 @@
 {% set name = "python-dotenv" %}
 {% set version = "1.2.2" %}
 
-# skipping tests for windows due to upstream tests depend on UNIX ‘sh’ which isn’t available on Win-64
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
@@ -26,6 +25,8 @@ requirements:
     - python
   run_constrained:
     - click >=5.0
+
+# skipping tests for windows due to upstream tests depend on UNIX ‘sh’ which isn’t available on Win-64
 
 test:
   imports:
