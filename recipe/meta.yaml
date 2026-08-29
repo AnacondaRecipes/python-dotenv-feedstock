@@ -1,6 +1,7 @@
 {% set name = "python-dotenv" %}
 {% set version = "1.2.2" %}
 
+# skipping tests for windows due to upstream tests depend on UNIX ‘sh’ which isn’t available on Win-64
 package:
   name: {{ name }}
   version: {{ version }}
