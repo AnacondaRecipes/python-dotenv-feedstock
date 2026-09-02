@@ -1,3 +1,2 @@
-auto_release:
-  enabled: true
-  channel: main
+aggregate_check: false
+upload_without_merge: true
